@@ -1,15 +1,16 @@
 package fr.diginamic.model;
 
+import java.util.List;
+
 public class Question {
 	private int id;
 	private String intitule;
-	private String[] propositions;
+	private List<String> propositions;
 	private String bonneReponse;
 	
 	public Question(String question, int numberPossibleAnswers) {
 		
 		this.intitule = question;
-		propositions = new String [numberPossibleAnswers];
 	}
 	
 	public boolean verifierReponse(String answer) {
@@ -22,7 +23,7 @@ public class Question {
 	}
 	
 	void addProposition(String newProposition) {
-		propositions[id] = newProposition;
+		propositions.add(newProposition);
 		id++;
 	}
 }
