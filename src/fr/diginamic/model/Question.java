@@ -26,4 +26,16 @@ public class Question {
 		propositions.add(newProposition);
 		id++;
 	}
+	
+	public String getIntitule() {
+		return intitule;
+	}
+	
+	public List<String> getPropositions() {
+		return propositions;
+	}
+	
+	public void setPropositions(List<String> propositions) {
+		this.propositions = propositions;
+	}
 }
