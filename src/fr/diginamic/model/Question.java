@@ -38,4 +38,8 @@ public class Question {
 	public void setPropositions(List<String> propositions) {
 		this.propositions = propositions;
 	}
+	
+	public void setBonneReponse(String answer) {
+		this.bonneReponse = answer;
+	}
 }

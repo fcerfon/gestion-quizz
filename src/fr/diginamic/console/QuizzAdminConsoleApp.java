@@ -33,7 +33,6 @@ public class QuizzAdminConsoleApp {
 	
 	private void showListQuestion() {
 		int i = 1;
-		System.out.println(quiz.size());
 		for (Question question : quiz) {
 			System.out.println(i + ") ");
 			System.out.println(question.getIntitule() + "\n");
@@ -72,12 +71,45 @@ public class QuizzAdminConsoleApp {
 			propositions.add(getNextLine());
 		}
 		
-		System.out.println("Veuillez saisir le numéro de la bonne réponse (entre 1 et 3)");
-		goodAnswer = getNextInt();
+		System.out.println("Veuillez saisir le numéro de la bonne réponse (entre 1 et " + questionNumbers + " )");
+		goodAnswer = getNextInt() - 1;
 		
 		Question newQuestion = new Question(intitule, questionNumbers);
 		quiz.add(newQuestion);
 		newQuestion.setPropositions(propositions);
+		newQuestion.setBonneReponse(propositions.get(goodAnswer));
+	}
+	
+	private void deleteQuestion() {
+		System.out.println("Veuillez choisir le numéro de la question à supprimer.");
+		int questionNbToDelete = getNextInt() - 1;
+		quiz.remove(questionNbToDelete);
+	}
+	
+	private void playQuiz() {
+		int answer = 0;
+		int score = 0;
+		String answerStr = "";
+		List<String> propositions;
+		
+		for (Question quest : quiz) {
+			System.out.println(quest.getIntitule() + "\n");
+			propositions = quest.getPropositions();
+			for (int i = 0 ; i < propositions.size() ; i++) {
+				System.out.println("\t -  " + propositions.get(i));
+			}
+			answer = getNextInt() - 1;
+			System.out.println(propositions.get(answer));
+			if (quest.verifierReponse(propositions.get(answer)) == true) {
+				System.out.println("Bonne réponse");
+				score++;
+			}
+			else {
+				System.out.println("Mauvaise réponse");
+			}
+		}
+		
+		System.out.println("Fin du quiz\nVotre score : " + score);
 	}
 	
 	private void printAnswer(int inputtedAnswer) {
@@ -89,10 +121,10 @@ public class QuizzAdminConsoleApp {
 				addQuestion();
 				break;
 			case 3 :
-				System.out.println("Suppression d'une question");
+				deleteQuestion();
 				break;
 			case 4 :
-				System.out.println("Exécution du quizz");
+				playQuiz();
 				break;
 		}
 	}
