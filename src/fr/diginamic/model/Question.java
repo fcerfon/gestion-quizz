@@ -1,5 +1,6 @@
 package fr.diginamic.model;
 
+import fr.diginamic.model.TypeQuestion;
 import java.util.List;
 
 public class Question {
@@ -7,6 +8,7 @@ public class Question {
 	private String intitule;
 	private List<String> propositions;
 	private String bonneReponse;
+	private TypeQuestion type;
 	
 	public Question(String question, int numberPossibleAnswers) {
 		
@@ -41,5 +43,13 @@ public class Question {
 	
 	public void setBonneReponse(String answer) {
 		this.bonneReponse = answer;
+	}
+	
+	public TypeQuestion getType() {
+		return type;
+	}
+	
+	public void setType(TypeQuestion type) {
+		this.type = type;
 	}
 }
