@@ -7,12 +7,12 @@ import java.util.Scanner;
 import fr.diginamic.model.Question;
 import fr.diginamic.model.QuestionDao;
 import fr.diginamic.model.QuestionMemDao;
-import fr.diginamic.model.TypeQuestion;
 import fr.diginamic.exception.AjouterQuestionException;
 import fr.diginamic.helper.*;
 
 public class AjouterQuestionService extends MenuService {
 
+	
 	@Override
 	public void executeUC(Scanner scanner, QuestionDao dao) throws AjouterQuestionException {
 		int questionNumbers = 0;
@@ -40,6 +40,7 @@ public class AjouterQuestionService extends MenuService {
 		}
 		
 		System.out.println("Veuillez saisir le numéro de la bonne réponse (entre 1 et " + questionNumbers + " )");
+		goodAnswer = LineHelper.getNextInt(scanner);
 		try {
 			goodAnswer = LineHelper.getNextInt(scanner);
 		} catch (NumberFormatException e) {
@@ -50,17 +51,7 @@ public class AjouterQuestionService extends MenuService {
 			throw new AjouterQuestionException("Veuillez mettre un numéro entre 1 et " + questionNumbers + ".");
 		}
 		
-		System.out.println("Cette question est-elle simple ou bonus ?");
-		String bonusQuestion = scanner.nextLine();
-		
 		Question newQuestion = new Question(intitule, questionNumbers);
-		
-		try {
-			newQuestion.setType(TypeQuestion.valueOf(bonusQuestion.toUpperCase()));
-		} catch (IllegalArgumentException e) {
-			throw new AjouterQuestionException("Veuillez répondre par simple ou bonus");
-		}
-		
 		newQuestion.setPropositions(propositions);
 		newQuestion.setBonneReponse(propositions.get(goodAnswer - 1));
 		
