@@ -1,19 +1,20 @@
 package fr.diginamic.console;
 
-import java.util.Scanner;
+import fr.diginamic.model.QuestionMemDao;
 import fr.diginamic.model.Question;
 
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
 public class QuizzAdminConsoleApp {
 	
 	Scanner inputUser;
-	ArrayList<Question> quiz;
+	QuestionMemDao quiz;
 	
 	private QuizzAdminConsoleApp() {
 		this.inputUser = new Scanner(System.in);
-		quiz = new ArrayList<Question>();
+		quiz = new QuestionMemDao();
 	}
 	
 	private void printMenu() {
@@ -32,13 +33,21 @@ public class QuizzAdminConsoleApp {
 	}
 	
 	private void showListQuestion() {
-		int i = 1;
-		for (Question question : quiz) {
-			System.out.println(i + ") ");
+		List<Question> questions;
+		List<String> propositions;
+		Question question;
+		
+		questions = quiz.findAll();
+		for (int i = 0; i < questions.size() ; i++) {
+			
+			question = questions.get(i);
+			
+			System.out.println((i + 1) + ") ");
 			System.out.println(question.getIntitule() + "\n");
-			ArrayList<String> propositions = (ArrayList)question.getPropositions();
-			for (String proposition : propositions) {
-				System.out.println("\t - \t" + proposition);
+			
+			propositions = question.getPropositions();
+			for (int j = 0 ; j < propositions.size() ; j++) {
+				System.out.println("\t - \t" + propositions.get(j));
 			}
 			i++;
 		}
@@ -75,15 +84,19 @@ public class QuizzAdminConsoleApp {
 		goodAnswer = getNextInt() - 1;
 		
 		Question newQuestion = new Question(intitule, questionNumbers);
-		quiz.add(newQuestion);
 		newQuestion.setPropositions(propositions);
 		newQuestion.setBonneReponse(propositions.get(goodAnswer));
+		
+		quiz.save(newQuestion);
 	}
 	
 	private void deleteQuestion() {
+		Question questionToDelete;
+		
 		System.out.println("Veuillez choisir le numéro de la question à supprimer.");
 		int questionNbToDelete = getNextInt() - 1;
-		quiz.remove(questionNbToDelete);
+		questionToDelete = quiz.findAll().get(questionNbToDelete);
+		quiz.delete(questionToDelete);
 	}
 	
 	private void playQuiz() {
@@ -92,7 +105,7 @@ public class QuizzAdminConsoleApp {
 		String answerStr = "";
 		List<String> propositions;
 		
-		for (Question quest : quiz) {
+		for (Question quest : quiz.findAll()) {
 			System.out.println(quest.getIntitule() + "\n");
 			propositions = quest.getPropositions();
 			for (int i = 0 ; i < propositions.size() ; i++) {
