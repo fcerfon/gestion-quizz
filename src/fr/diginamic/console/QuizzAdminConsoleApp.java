@@ -1,6 +1,7 @@
 package fr.diginamic.console;
 
 import fr.diginamic.model.QuestionMemDao;
+import fr.diginamic.exception.StockageException;
 import fr.diginamic.model.Question;
 import fr.diginamic.services.*;
 
@@ -42,9 +43,14 @@ public class QuizzAdminConsoleApp {
 		System.out.println("Au revoir");
 	}
 	
-	private void printAnswer(int inputtedAnswer) {
-		if (inputtedAnswer >= 1 && inputtedAnswer <= 4)
-		menu[inputtedAnswer - 1].executeUC(scanner, dao);
+	private void printAnswer(int inputtedAnswer) throws StockageException {
+		if (inputtedAnswer >= 1 && inputtedAnswer <= 4) {
+			try {
+				menu[inputtedAnswer - 1].executeUC(scanner, dao);
+			} catch (StockageException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 	}
 	
 	private int getUserInput() {
@@ -54,7 +60,7 @@ public class QuizzAdminConsoleApp {
 		return inputtedAnswer;
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws StockageException {
 		
 		QuizzAdminConsoleApp quizz = new QuizzAdminConsoleApp();
 		int inputedAnswer = 0;

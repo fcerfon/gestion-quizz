@@ -7,6 +7,7 @@ import fr.diginamic.model.Question;
 import fr.diginamic.model.QuestionDao;
 import fr.diginamic.model.QuestionMemDao;
 import fr.diginamic.helper.*;
+import fr.diginamic.exception.AjouterQuestionException;
 
 public class ExecuterQuizzService extends MenuService {
 
