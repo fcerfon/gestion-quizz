@@ -6,6 +6,7 @@ import java.util.Scanner;
 import fr.diginamic.model.Question;
 import fr.diginamic.model.QuestionDao;
 import fr.diginamic.model.QuestionMemDao;
+import fr.diginamic.model.TypeQuestion;
 import fr.diginamic.helper.*;
 import fr.diginamic.exception.AjouterQuestionException;
 
@@ -29,7 +30,12 @@ public class ExecuterQuizzService extends MenuService {
 			System.out.println(propositions.get(answer));
 			if (quest.verifierReponse(propositions.get(answer)) == true) {
 				System.out.println("Bonne réponse");
-				score++;
+				if (quest.getType().equals(TypeQuestion.BONUS)) {
+					score += 2;
+				}
+				else {
+					score++;
+				}
 			}
 			else {
 				System.out.println("Mauvaise réponse");
